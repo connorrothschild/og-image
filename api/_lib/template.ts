@@ -51,6 +51,10 @@ function getCss(theme: string) {
         border-top: 1rem solid ${accent};
     }
 
+    .content {
+        width: 70%;
+    }
+
     .overline {
         font-family: 'Inter', sans-serif;
         text-transform: uppercase;
@@ -58,10 +62,9 @@ function getCss(theme: string) {
         font-weight: normal;
         color: ${accent};
         margin-bottom: 0;
-        margin-top: 3rem;
+        margin-top: 5rem;
         text-align: left;
     }
-
 
     .heading {
         font-family: 'Inter', sans-serif;
@@ -71,7 +74,6 @@ function getCss(theme: string) {
         letter-spacing: -.64px;
         line-height: 1.2;
         margin-top: 0;
-        max-width: 75%;
     }
     
     .subtitle {
@@ -80,15 +82,15 @@ function getCss(theme: string) {
         color: ${foreground};
         line-height: 1.2;
         font-weight: normal;
-        max-width: 75%;
     }
     
     img {
         max-width: 25%;
         border-radius: 50%;
         position: absolute;
-        top: 12rem;
+        top: 10rem;
         right: 5rem;
+        box-shadow: 2px 2px 20px rgba(0, 0, 0, .2);
     }`
 }
 
@@ -103,7 +105,7 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme)}
     </style>
     <body>
-        <div>
+        <div class='content'>
             <div class="heading">${emojify(
             md ? marked(text) : sanitizeHtml(text)
     )}
