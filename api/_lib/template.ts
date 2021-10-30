@@ -11,16 +11,16 @@ const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString
 const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
 const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
+function getCss(theme: string) {
     let background = 'white';
     let foreground = 'black';
-    let radial = 'lightgray';
-
+    let accent = '#c5516c';
     if (theme === 'dark') {
         background = 'black';
         foreground = 'white';
-        radial = 'dimgray';
+        accent = '#57dfd2';
     }
+
     return `
     @font-face {
         font-family: 'Inter';
@@ -45,102 +45,76 @@ function getCss(theme: string, fontSize: string) {
 
     body {
         background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
         height: 100vh;
         display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
+        padding: 5rem;
+        border-top: 1rem solid ${accent};
     }
 
-    code {
-        color: #D400FF;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
+    .overline {
+        font-family: 'Inter', sans-serif;
+        text-transform: uppercase;
+        font-size: 32px;
+        font-weight: normal;
+        color: ${accent};
+        margin-bottom: 0;
+        margin-top: 3rem;
+        text-align: left;
     }
 
-    code:before, code:after {
-        content: '\`';
-    }
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-    }
-
-    .logo {
-        margin: 0 75px;
-    }
-
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
-    }
-
-    .spacer {
-        margin: 150px;
-    }
-
-    .emoji {
-        height: 1em;
-        width: 1em;
-        margin: 0 .05em 0 .1em;
-        vertical-align: -0.1em;
-    }
-    
     .heading {
         font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
-        font-style: normal;
+        font-size: 100px;
+        font-weight: bold;
         color: ${foreground};
-        line-height: 1.8;
-    }`;
+        letter-spacing: -.64px;
+        line-height: 1.2;
+        margin-top: 0;
+        max-width: 75%;
+    }
+    
+    .subtitle {
+        font-family: 'Inter', sans-serif;
+        font-size: 66px;
+        color: ${foreground};
+        line-height: 1.2;
+        font-weight: normal;
+        max-width: 75%;
+    }
+    
+    img {
+        max-width: 25%;
+        border-radius: 50%;
+        position: absolute;
+        top: 12rem;
+        right: 5rem;
+    }`
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, subtitle, theme, md, hasImage } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(theme)}
     </style>
     <body>
         <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
             <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+            md ? marked(text) : sanitizeHtml(text)
+    )}
+            <img src=${hasImage ? 'https://www.connorrothschild.com/_nuxt/img/f092b88.jpg' : ''} />
             </div>
+            <div class="subtitle">${emojify(
+                md ? marked(subtitle) : sanitizeHtml(subtitle)
+                )}
+            </div>
+            <div class="overline">connorrothschild.com</div>
         </div>
     </body>
 </html>`;
-}
-
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
 }
