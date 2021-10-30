@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
-import { ParsedRequest, Theme } from './types';
+import { ParsedRequest } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
@@ -29,6 +29,7 @@ export function parseRequest(req: IncomingMessage) {
         subtitle: subtitle || '',
         theme: theme === 'dark' ? 'dark' : 'light',
         md: md === '1' || md === 'true',
+        hasImage: hasImage === '1' || hasImage === 'true',
     };
     return parsedRequest;
 }
