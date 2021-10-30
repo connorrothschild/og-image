@@ -107,7 +107,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             <div class="heading">${emojify(
             md ? marked(text) : sanitizeHtml(text)
     )}
-            <img src=${hasImage ? 'https://www.connorrothschild.com/_nuxt/img/f092b88.jpg' : ''} />
+            <img src=${hasImage ? 'https://og-image-eight-eta.vercel.app/me.jpg' : ''} />
             </div>
             <div class="subtitle">${emojify(
                 md ? marked(subtitle) : sanitizeHtml(subtitle)
