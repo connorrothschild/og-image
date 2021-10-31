@@ -47,12 +47,19 @@ function getCss(theme: string) {
         background: ${background};
         height: 100vh;
         display: flex;
-        padding: 5rem;
+        padding: 0 5rem;
         border-top: 1rem solid ${accent};
+        position: relative;
+    }
+
+    img, .content {
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
     }
 
     .content {
-        width: 70%;
+        width: 60%;
     }
 
     .overline {
@@ -64,6 +71,10 @@ function getCss(theme: string) {
         margin-bottom: 0;
         margin-top: 5rem;
         text-align: left;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
     }
 
     .heading {
@@ -87,8 +98,6 @@ function getCss(theme: string) {
     img {
         max-width: 25%;
         border-radius: 50%;
-        position: absolute;
-        top: 10rem;
         right: 5rem;
         box-shadow: 2px 2px 20px rgba(0, 0, 0, .2);
     }`
@@ -105,11 +114,11 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(theme)}
     </style>
     <body>
+        <img src=${hasImage ? 'https://og-image-eight-eta.vercel.app/me.jpg' : ''} />
         <div class='content'>
             <div class="heading">${emojify(
             md ? marked(text) : sanitizeHtml(text)
     )}
-            <img src=${hasImage ? 'https://og-image-eight-eta.vercel.app/me.jpg' : ''} />
             </div>
             <div class="subtitle">${emojify(
                 md ? marked(subtitle) : sanitizeHtml(subtitle)
